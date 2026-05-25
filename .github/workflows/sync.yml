@@ -16,15 +16,19 @@ jobs:
         with:
           repository: hrdlaaaa/okbase-firebase-sync
           token: ${{ secrets.PAT_TOKEN }}
+          path: app
 
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
+          cache-dependency-path: app/package-lock.json
 
       - run: npm ci
+        working-directory: app
 
       - name: Run sync
+        working-directory: app
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
